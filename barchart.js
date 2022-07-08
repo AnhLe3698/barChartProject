@@ -1,43 +1,33 @@
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.8)',
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 206, 86, 0.8)',
-                'rgba(75, 192, 192, 0.8)',
-                'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
+/*
+let data = [1, 2, 3, 4, 5];
+let options = ["Title", "Y-axis", "x-axis", "height", "width"];
+let element = "DOM/jQuery";
 
-    options: {
-        title: {
-          display: true,
-          text: "Custom Bar Chart",
-          fontSize:30,
-          fontColor:'#273c75'
-        },
+const drawBarChart = function (data, options, element) {
+  if (element === "jQuery" || element === "jquery") {
 
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+  } else if (element === "DOM" || element === "dom") {
+
+  }
+}
+css('width', "400px")
+drawBarChart(data, options, element);
+*/
+drawBarChart();
+
+function drawBarChart() {
+        
+  $("h1").hide().show(2000);
+  $("#div1").css('font-size', "50px");
+  $("#div1").css('width', "200px").delay(3000).queue(function() {
+      $("#div1").css('width', "400px")
+    });
+
+  $("#div1")
+    .append('<div class="child">Append</div>')
+    .append('<div class="child">Repo</div>');
+  
+  
+  
+}
+
