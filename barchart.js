@@ -3,7 +3,7 @@
 // jQuery functions
 $(function(){
   //Initial Properties!
-  let data = [20, 2, 3, 4, 10, 3, 12, 5, 45];
+  let data = [20, 2, 3, 4, 10, 3, 12, 5, 45, 70, 60, 20];
   //title, height and width of chart!
   let options = ["Bar Graphs using jQuery", 500, 800];
   let element = "DOM/jQuery";
@@ -74,7 +74,7 @@ $(function(){
     
     $('.bars .bar').mouseenter(function(){
       $(this).css({
-        background: '#0d1a6e',
+        background: '#000000',
         'box-shadow':  '0 0 10px 0 rgba(55, 82, 71, 0.5)',
         cursor: 'pointer'
       });
@@ -82,8 +82,8 @@ $(function(){
     
     $('.bars .bar').mouseleave(function(){
       $(this).css({
-        background: '#90e0c1',
-        'box-shadow':  '0 0 10px 0 rbga(13, 26, 110, 0.5)',
+        background: '#0d1a6e',
+        'box-shadow':  '0 0 10px 0 rbga(55, 82, 71, 0.5)',
       });
     });
 
