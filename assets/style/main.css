@@ -7,6 +7,21 @@ h1 {
   text-align: center
 }
 
+
+/*Formatting Input Bar*/
+#span1 {
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  float: left;
+}
+
+#user {
+  font-size: 18px;
+  color: #1c8e6a;
+  float: left;
+}
+
 /*Formatting the main body */
 body{
   margin: 0;

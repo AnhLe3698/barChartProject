@@ -1,18 +1,38 @@
-
 // This will force the whole document to load before preforming 
 // jQuery functions
 $(function(){
+
+  //This variable will provide information on user changes to graph
+  let changeBarGraph = [];
   //Initial Properties!
   let data = [20, 2, 3, 4, 10, 3, 12];
-  //title, height and width of chart!
   let options = ["Bar Graphs using jQuery", 500, 600];
-  let element = "DOM/jQuery";
+  //User passes jQuery or DOM element. Currently only coded 
+  // using jQuery.
+  let element = "jQuery";
+
+  //User input data will be parsed and processed
+  $('#bi').on("click", function() {
+    options = ["Bar Graphs using jQuery", 500, 600];
+    let userData = $('#ti').val();
+    $(this).css('cursor', 'pointer');
+    //this function returns an array to let us know which settings 
+    //will be altered and which settings will remain default
+    changeBarGraph = userInput(userData);
+    if (changeBarGraph[0] == 1) {
+      options[0] = changeBarGraph[1];
+    }; 
+    //titleMaker(options);
+    drawBarGraph(data, options, element);
+  });
+  
+  
 
   //MAIN Function
-  function drawBarGraph(data, options){
+  function drawBarGraph(data, options, element){
+    if (element === "jQuery" || element === "jquery") {
     //Adding tite
-    $('h1').append(options[0]);
-    $('h1').css('height', options[1]+ 100 + 'px');
+    titleMaker(options);
     //calling saving biggest num to avoid looping again
     let bigNumber = biggestNumber(data);
     //adding y-axis values to HTML
@@ -21,15 +41,50 @@ $(function(){
     //adding x-axis values to HTML
     addingBars(data);
     generateXAxis(data, options, bigNumber);
-  
+    }
   }
   //Calling the function to drawa the bar graph
-  drawBarGraph(data, options);
+  drawBarGraph(data, options, element);
 });
 
 
+
+//user input parser and formatting
+// this function will return a truth array 
+//[title?, height?, width?, xAxis?, yAxis?, valuesArray?[num,ColorString...]]
+// example: title Bar Charts, 300, 500,xaxis profit,yaxis year, [3, '#851738', '1993', 22, 33, 44, 55]
+function userInput(userData) {
+  //checking if there is title data
+  let titleSpot = userData.search("title");
+  let titleString = "";
+  let returnArray = [];
+  if(titleSpot === - 1){
+    titleSpot = userData.search("Title");
+  }
+  if(titleSpot === - 1){
+    returnArray.push(0);
+  } else {
+    returnArray.push(1);
+    let i = titleSpot + 5;
+    // adding the title to the titleString
+    while (userData[i] !== "," && i < userData.length) {
+      // checking if the first character is a space and adding the rest
+      if ((i === titleSpot + 5 && userData[i] !== " ")|| i > titleSpot + 5) {
+        titleString += userData[i];
+      }
+      i++;
+    }
+    i = 0;
+    returnArray.push(titleString);
+  }
+
+
+  return returnArray;
+};
+
 //adding y-axis elements into HTML
 function addingYaxis(bigNumber) {
+  $('.numbers').empty()
   $('.numbers').append(`<li><span class="top">${bigNumber}</span></li>`);
   $('.numbers').append(`<li><span class="middle">${bigNumber/2}</span></li>`);
   $('.numbers').append('<li><span class="bottom">0</span></li>');
@@ -37,13 +92,13 @@ function addingYaxis(bigNumber) {
 
 //adding x-axis elements into HTML
 function addingBars(data) {
+  $('.bars').empty()
   for(let i = 0; i < data.length; i++) {
     if (i < 9) {
       $('.bars').append(`<li><div class="bar" data-num="${data[i]}"></div><span>Option 0${i + 1}</span></li>`);
     } else if (i >= 9){
       $('.bars').append(`<li><div class="bar" data-num="${data[i]}"></div><span>Option ${i + 1}</span></li>`);
-    }
-    
+    } 
   }
 };
 
@@ -78,10 +133,11 @@ function generateYAxis(options){
   
   $('.numbers li') .css( {
     'list-style': 'none',
-    'height': options[1]/2 + "px",
+    'height': options[1]/2 + "px", //sizing height of y-axis values
     position: 'relative',
-    bottom: options[1]/2 - 5 + "px"
+    bottom: options[1]/2 - 5 + "px" //relative positions of numbers
     });
+
   $('.numbers span').css({
     'font-size': '12px',
     'font-weight': '600',
@@ -94,10 +150,7 @@ function generateYAxis(options){
 
 //Generating x-axis, bars using CSS formatting
 function generateXAxis(data, options, bigNumber) {
-  let stretchFactor = 1;
-  if (data.length > 8) {
-    stretchFactor = 2.5;
-  }
+  
   $('.bars').css({
     color: '#fff',
     'font-size': '11px',
@@ -133,7 +186,8 @@ function generateXAxis(data, options, bigNumber) {
     width: `${(options[2] - 100) / data.length / 2}px`,
     position: 'absolute',
     bottom: '0',
-    'margin-left': 25 * 5 / data.length + 'px',
+    //scaling images based on a 600 px wide and 300px source image
+    'margin-left': 25 * options[2] * 5 / data.length / 600  + 'px',
     'text-align': 'center',
     'box-shadow': '0 0 10px 0 rbga(13, 26, 110, 0.5)',
     'transition': '0.5s',
@@ -164,4 +218,15 @@ function generateXAxis(data, options, bigNumber) {
       'height' : percentage + '%'
     }, 1000)
   });
+}
+
+function titleMaker(options) {
+  $('h1').replaceWith(`<h1>${options[0]}</h1>`);
+  $('h1').css({
+    'height': options[1]+ 100 + 'px',
+    'position': 'absolute',
+    'font-size': '40px',
+    'color': '#ad4e05',
+    'text-align': 'center'
+  })
 }
