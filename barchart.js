@@ -6,14 +6,14 @@ $(function(){
   let changeBarGraph = [];
   //Initial Properties!
   let data = [20, 2, 3, 4, 10, 3, 12];
-  let options = ["Bar Graphs using jQuery", 500, 600];
+  let options = ["Bar Graphs using jQuery", 300, 600];
   //User passes jQuery or DOM element. Currently only coded 
   // using jQuery.
   let element = "jQuery";
 
   //User input data will be parsed and processed
   $('#bi').on("click", function() {
-    options = ["Bar Graphs using jQuery", 500, 600];
+    options = ["Bar Graphs using jQuery", 300, 600];
     let userData = $('#ti').val();
     $(this).css('cursor', 'pointer');
     //this function returns an array to let us know which settings 
@@ -22,6 +22,10 @@ $(function(){
     if (changeBarGraph[0] == 1) {
       options[0] = changeBarGraph[1];
     }; 
+    //changing height and width, respectively
+    options[1] = changeBarGraph[2];
+    options[2] = changeBarGraph[3];
+
     //titleMaker(options);
     drawBarGraph(data, options, element);
   });
@@ -54,6 +58,18 @@ $(function(){
 //[title?, height?, width?, xAxis?, yAxis?, valuesArray?[num,ColorString...]]
 // example: title Bar Charts, 300, 500,xaxis profit,yaxis year, [3, '#851738', '1993', 22, 33, 44, 55]
 function userInput(userData) {
+  
+  let returnArray = [];
+  //checking for user data for title
+  returnArray.push(...titleParse(userData));
+  // find width and height and adding it to return array using the spread operator
+  returnArray.push(...findWidthHeight(userData));
+
+  return returnArray;
+};
+
+//title formatting
+function titleParse(userData) {
   //checking if there is title data
   let titleSpot = userData.search("title");
   let titleString = "";
@@ -62,6 +78,7 @@ function userInput(userData) {
     titleSpot = userData.search("Title");
   }
   if(titleSpot === - 1){
+    returnArray.push(0);
     returnArray.push(0);
   } else {
     returnArray.push(1);
@@ -77,10 +94,50 @@ function userInput(userData) {
     i = 0;
     returnArray.push(titleString);
   }
-
-
   return returnArray;
-};
+}
+
+// findind width and height from parsed user data
+function findWidthHeight(userData) {
+  let parsedInputs = [];
+  let indiCommands = ""; 
+  let heightWidth = []; // 1 by 2 array [height, width]
+
+  //We will parse out the inputs by commas and remove spaces
+  for (let i = 0; i < userData.length; i++) {
+    if (userData[i] !== "," && userData[i] !== " ") {
+      indiCommands += userData[i];
+    } else if (userData[i] === ",") {
+      console.log(indiCommands);
+      parsedInputs.push(indiCommands);
+      indiCommands = "";
+    }
+    //adds final command
+    if (i === userData.length - 1) {
+      parsedInputs.push(indiCommands);
+    }
+  }
+  console.log(parsedInputs);
+  //checks if the commands are numbers and takes the first two numbers
+  for (let i = 0; i < parsedInputs.length; i++) {
+    if (isNaN(Number(parsedInputs[i])) === false && heightWidth.length < 2) {
+      //making sure number is bigger than 200
+      if(Number(parsedInputs[i]) > 200) {
+        heightWidth.push(Number(parsedInputs[i]));
+      }
+    }
+  }
+
+  if (heightWidth.length === 1) {
+    heightWidth[1] = 600;
+  } else if ( heightWidth.length === 0) {
+    heightWidth[0] = 300;
+    heightWidth[1] = 600;
+  }
+
+  return heightWidth; //returns width and height
+}
+
 
 //adding y-axis elements into HTML
 function addingYaxis(bigNumber) {

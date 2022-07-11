@@ -8,12 +8,17 @@ h1 {
 }
 
 
-/*Formatting Input Bar*/
+/*Formatting Input Bar, input text box*/
 #span1 {
   position: absolute;
   top: 20px;
   left: 0px;
   float: left;
+}
+
+#ti {
+  width: 300px; 
+  height: 20px
 }
 
 #user {
