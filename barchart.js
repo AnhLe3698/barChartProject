@@ -25,6 +25,7 @@ $(function(){
     //changing height and width, respectively
     options[1] = changeBarGraph[2];
     options[2] = changeBarGraph[3];
+    data = changeBarGraph[4]
 
     //titleMaker(options);
     drawBarGraph(data, options, element);
@@ -64,8 +65,37 @@ function userInput(userData) {
   returnArray.push(...titleParse(userData));
   // find width and height and adding it to return array using the spread operator
   returnArray.push(...findWidthHeight(userData));
+  returnArray.push(dataParse(userData));
 
   return returnArray;
+};
+
+//will return a data object with all the user inputs!
+function dataParse (userData) {
+  let dataArray = [];
+  let boolArray = false;
+  let numString = "";
+  for(let i = 0; i < userData.length; i++) {
+    if (userData[i] === "[") {
+      boolArray = true;
+    } else if (userData[i] !== " " && userData[i] !== "]" && userData[i] !== "," && boolArray) {
+      numString += userData[i];
+
+    } else if (userData[i] === "," && numString.length !== 0) {
+      //checking if the data is a number and adding it to array
+      if(isNaN(Number(numString))=== false) {
+        dataArray.push(Number(numString));
+      }
+      numString = "";
+    } else if (userData[i] === "]" && boolArray) {
+      //checking if the data is a number and adding it to array
+      if(isNaN(Number(numString)) === false) {
+        dataArray.push(Number(numString));
+      }
+      return dataArray;
+    }
+  }
+  return [20, 2, 3, 4, 10, 3, 12];
 };
 
 //title formatting
@@ -121,8 +151,8 @@ function findWidthHeight(userData) {
   //checks if the commands are numbers and takes the first two numbers
   for (let i = 0; i < parsedInputs.length; i++) {
     if (isNaN(Number(parsedInputs[i])) === false && heightWidth.length < 2) {
-      //making sure number is bigger than 200
-      if(Number(parsedInputs[i]) > 200) {
+      //making sure number is bigger than 100
+      if(Number(parsedInputs[i]) > 150) {
         heightWidth.push(Number(parsedInputs[i]));
       }
     }

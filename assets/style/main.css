@@ -16,16 +16,28 @@ h1 {
   float: left;
 }
 
-#ti {
-  width: 300px; 
-  height: 20px
-}
-
 #user {
   font-size: 18px;
   color: #1c8e6a;
   float: left;
 }
+
+#ti {
+  width: 300px; 
+  height: 20px
+}
+
+#examples {
+  font-size: 18px;
+  height: 20px;
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  width: 650px;
+  color: #758a09;
+}
+
+
 
 /*Formatting the main body */
 body{
